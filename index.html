@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 
 <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
 >
 
 <title>TapVia | Değerlendirme</title>
@@ -14,13 +14,10 @@
 
 <style>
 
-/* ==============================
-   GENEL
-   ============================== */
-
 * {
     box-sizing: border-box;
 }
+
 
 body {
 
@@ -47,9 +44,7 @@ body {
 }
 
 
-/* ==============================
-   ANA KART
-   ============================== */
+/* ANA KART */
 
 .review-card {
 
@@ -57,9 +52,7 @@ body {
 
     max-width: 520px;
 
-    padding:
-        55px
-        30px;
+    padding: 55px 30px;
 
     text-align: center;
 
@@ -73,9 +66,7 @@ body {
 }
 
 
-/* ==============================
-   LOGO
-   ============================== */
+/* LOGO */
 
 .logo {
 
@@ -93,9 +84,7 @@ body {
 }
 
 
-/* ==============================
-   BAŞLIK
-   ============================== */
+/* BAŞLIK */
 
 h1 {
 
@@ -111,9 +100,7 @@ h1 {
 }
 
 
-/* ==============================
-   AÇIKLAMA
-   ============================== */
+/* AÇIKLAMA */
 
 .description {
 
@@ -132,9 +119,7 @@ h1 {
 }
 
 
-/* ==============================
-   YILDIZLAR
-   ============================== */
+/* YILDIZLAR */
 
 .stars {
 
@@ -174,8 +159,8 @@ h1 {
     cursor: pointer;
 
     transition:
-        transform 0.15s ease,
-        color 0.15s ease;
+        transform .15s ease,
+        color .15s ease;
 }
 
 
@@ -188,19 +173,31 @@ h1 {
 }
 
 
-/* ==============================
-   SEÇİLİ YILDIZ
-   ============================== */
-
 .star.selected {
 
     color: #f5b800;
 }
 
 
-/* ==============================
-   GERİ BİLDİRİM MESAJI
-   ============================== */
+/* DEVRE DIŞI YILDIZ */
+
+.star.disabled {
+
+    cursor: default;
+
+    opacity: .65;
+}
+
+
+.star.disabled:hover {
+
+    color: #d7d7d7;
+
+    transform: none;
+}
+
+
+/* MESAJ */
 
 .message {
 
@@ -222,9 +219,7 @@ h1 {
 }
 
 
-/* ==============================
-   MOBİL
-   ============================== */
+/* MOBİL */
 
 @media (max-width: 500px) {
 
@@ -267,10 +262,6 @@ h1 {
 <body>
 
 
-<!-- ==============================
-     ANA İÇERİK
-     ============================== -->
-
 <div class="review-card">
 
 
@@ -284,17 +275,16 @@ h1 {
     </h1>
 
 
-    <p class="description">
+    <p
+        id="description"
+        class="description"
+    >
 
         Deneyiminizi değerlendirmek için
         aşağıdaki yıldızlardan birini seçin.
 
     </p>
 
-
-    <!-- ==============================
-         YILDIZLAR
-         ============================== -->
 
     <div class="stars">
 
@@ -347,10 +337,6 @@ h1 {
     </div>
 
 
-    <!-- ==============================
-         MESAJ
-         ============================== -->
-
     <div
         id="message"
         class="message"
@@ -364,31 +350,64 @@ h1 {
 <script>
 
 
-/* ==================================
+/* =========================================
    GOOGLE YORUM LİNKİ
-   ================================== */
+   ========================================= */
 
 const GOOGLE_REVIEW_URL =
 "https://search.google.com/local/writereview?placeid=ChIJ898nqsk-0xQRh_axhzL3vDY";
 
 
-/* ==================================
-   YILDIZ SEÇİMİ
-   ================================== */
+/* =========================================
+   DAHA ÖNCE PUAN VERİLDİ Mİ?
+   ========================================= */
+
+const alreadyRated =
+    localStorage.getItem("tapvia_puan_verildi");
+
+
+/* =========================================
+   SAYFA AÇILIRKEN KONTROL
+   ========================================= */
+
+if (alreadyRated === "true") {
+
+    lockRating();
+
+}
+
+
+/* =========================================
+   PUAN VERME
+   ========================================= */
 
 function rate(star) {
 
 
-    /* ------------------------------
-       YILDIZLARI DOLDUR
-       ------------------------------ */
+    /*
+    Eğer daha önce puan verildiyse
+    hiçbir şey yapma.
+    */
+
+    if (
+        localStorage.getItem("tapvia_puan_verildi")
+        === "true"
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+    YILDIZLARI DOLDUR
+    */
 
     const stars =
         document.querySelectorAll(".star");
 
 
     stars.forEach(function(item, index) {
-
 
         if (index < star) {
 
@@ -405,9 +424,26 @@ function rate(star) {
     });
 
 
-    /* ------------------------------
-       1 - 3 YILDIZ
-       ------------------------------ */
+    /*
+    =====================================
+    PUANI KAYDET
+    =====================================
+
+    Bundan sonra aynı tarayıcıda
+    tekrar puan verilemez.
+    */
+
+    localStorage.setItem(
+        "tapvia_puan_verildi",
+        "true"
+    );
+
+
+    /*
+    =====================================
+    1 - 3 YILDIZ
+    =====================================
+    */
 
     if (star <= 3) {
 
@@ -433,22 +469,106 @@ function rate(star) {
             "görüşünüzü bizimle paylaşabilirsiniz.";
 
 
+        /*
+        YILDIZLARI KİLİTLE
+        */
+
+        lockRating();
+
     }
 
 
-    /* ------------------------------
-       4 - 5 YILDIZ
-       GOOGLE'A GİT
-       ------------------------------ */
+    /*
+    =====================================
+    4 - 5 YILDIZ
+    =====================================
+    */
 
     else {
 
 
+        /*
+        Yönlendirmeden önce yıldızları kilitle
+        */
+
+        lockRating();
+
+
+        /*
+        Google yorum sayfasına git
+        */
+
         window.location.href =
             GOOGLE_REVIEW_URL;
 
-
     }
+
+}
+
+
+/* =========================================
+   YILDIZLARI KİLİTLE
+   ========================================= */
+
+function lockRating() {
+
+
+    const stars =
+        document.querySelectorAll(".star");
+
+
+    stars.forEach(function(star) {
+
+        star.disabled = true;
+
+        star.classList.add("disabled");
+
+        star.onclick = null;
+
+    });
+
+
+}
+
+
+/* =========================================
+   DAHA ÖNCE PUAN VERİLDİYSE
+   ========================================= */
+
+function showAlreadyRated() {
+
+
+    const message =
+        document.getElementById("message");
+
+
+    message.style.display =
+        "block";
+
+
+    message.innerHTML =
+
+        "<strong>" +
+        "Değerlendirmeniz alındı." +
+        "</strong>" +
+
+        "<br><br>" +
+
+        "Bu cihazdan daha önce " +
+        "değerlendirme yaptınız.";
+
+
+}
+
+
+/*
+Sayfa daha önce puan verilmiş şekilde
+açıldıysa mesajı göster.
+*/
+
+if (alreadyRated === "true") {
+
+    showAlreadyRated();
 
 }
 
