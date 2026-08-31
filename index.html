@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TapVia | Deneyiminiz Nasıldı?</title>
+<title>TapVia - Değerlendirme</title>
 
 <style>
 
@@ -22,21 +22,14 @@ body {
 
     padding: 20px;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 
     background: #f5f6f7;
 
     color: #31475c;
 }
 
-
-/* ANA KART */
-
 .review-card {
-
     width: 100%;
     max-width: 520px;
 
@@ -44,7 +37,7 @@ body {
 
     text-align: center;
 
-    background: #ffffff;
+    background: white;
 
     border-radius: 28px;
 
@@ -52,11 +45,7 @@ body {
         0 20px 60px rgba(0,0,0,0.08);
 }
 
-
-/* LOGO / ÜST YAZI */
-
 .logo {
-
     margin-bottom: 18px;
 
     font-size: 14px;
@@ -70,11 +59,7 @@ body {
     text-transform: uppercase;
 }
 
-
-/* BAŞLIK */
-
 h1 {
-
     margin: 0;
 
     font-size: 34px;
@@ -82,19 +67,10 @@ h1 {
     line-height: 1.15;
 
     font-weight: 500;
-
-    letter-spacing: -0.03em;
 }
 
-
-/* AÇIKLAMA */
-
 .description {
-
-    margin:
-        18px
-        auto
-        0;
+    margin: 18px auto 0;
 
     max-width: 400px;
 
@@ -105,11 +81,7 @@ h1 {
     color: #6d7882;
 }
 
-
-/* YILDIZLAR */
-
 .stars {
-
     display: flex;
 
     justify-content: center;
@@ -118,17 +90,11 @@ h1 {
 
     gap: 4px;
 
-    margin:
-        38px
-        0
-        25px;
+    margin: 38px 0 25px;
 }
 
-
 .star {
-
     width: 58px;
-
     height: 58px;
 
     padding: 0;
@@ -150,20 +116,17 @@ h1 {
         color .15s ease;
 }
 
-
 .star:hover {
-
     color: #f5b800;
 
-    transform:
-        scale(1.15);
+    transform: scale(1.15);
 }
 
-
-/* MESAJ */
+.star.selected {
+    color: #f5b800;
+}
 
 .message {
-
     display: none;
 
     margin-top: 25px;
@@ -181,53 +144,30 @@ h1 {
     color: #4d5963;
 }
 
-
-/* SEÇİLEN YILDIZ */
-
-.star.selected {
-
-    color: #f5b800;
-
-}
-
-
-/* MOBİL */
-
-@media(max-width: 500px) {
+@media(max-width:500px) {
 
     .review-card {
-
-        padding:
-            45px
-            20px;
+        padding: 45px 20px;
     }
 
-
     h1 {
-
         font-size: 29px;
     }
 
-
     .star {
-
         width: 48px;
-
         height: 48px;
 
         font-size: 40px;
     }
 
-
     .stars {
-
         gap: 1px;
     }
 
 }
 
 </style>
-
 </head>
 
 
@@ -236,104 +176,80 @@ h1 {
 
 <div class="review-card">
 
-
     <div class="logo">
         TapVia NFC
     </div>
-
 
     <h1>
         Deneyiminiz nasıldı?
     </h1>
 
-
     <p class="description">
-
         Deneyiminizi değerlendirmek için
         aşağıdaki yıldızlardan birini seçin.
-
     </p>
 
 
     <div class="stars">
 
-
         <button
             class="star"
-            onclick="rate(1, this)"
-            aria-label="1 yıldız"
-        >
+            onclick="rate(1)"
+            aria-label="1 yıldız">
             ★
         </button>
 
-
         <button
             class="star"
-            onclick="rate(2, this)"
-            aria-label="2 yıldız"
-        >
+            onclick="rate(2)"
+            aria-label="2 yıldız">
             ★
         </button>
 
-
         <button
             class="star"
-            onclick="rate(3, this)"
-            aria-label="3 yıldız"
-        >
+            onclick="rate(3)"
+            aria-label="3 yıldız">
             ★
         </button>
 
-
         <button
             class="star"
-            onclick="rate(4, this)"
-            aria-label="4 yıldız"
-        >
+            onclick="rate(4)"
+            aria-label="4 yıldız">
             ★
         </button>
 
-
         <button
             class="star"
-            onclick="rate(5, this)"
-            aria-label="5 yıldız"
-        >
+            onclick="rate(5)"
+            aria-label="5 yıldız">
             ★
         </button>
-
 
     </div>
 
 
     <div
         id="message"
-        class="message"
-    ></div>
-
+        class="message">
+    </div>
 
 </div>
 
 
 <script>
 
+function rate(star) {
 
-function rate(star, element) {
-
-
-    /*
-    ==========================================
-    SEÇİLEN YILDIZLARI BOYA
-    ==========================================
-    */
+    /* Yıldızları doldur */
 
     const stars =
         document.querySelectorAll(".star");
 
-
     stars.forEach(function(item, index) {
 
-        if(index < star) {
+        if (index < star) {
 
             item.classList.add("selected");
 
@@ -346,67 +262,42 @@ function rate(star, element) {
     });
 
 
-    /*
-    ==========================================
-    1 - 3 YILDIZ
-    SAYFADA KAL
-    ==========================================
-    */
+    /* =====================================
+       1 - 3 YILDIZ
+       SAYFADA KAL
+       ===================================== */
 
-    if(star <= 3) {
-
+    if (star <= 3) {
 
         const message =
             document.getElementById("message");
 
-
-        message.style.display =
-            "block";
-
+        message.style.display = "block";
 
         message.innerHTML =
-
             "<strong>Görüşünüz bizim için önemli.</strong>" +
-
             "<br><br>" +
-
-            "Deneyiminizi daha iyi hale getirebilmemiz " +
-            "için görüşünüzü bizimle paylaşabilirsiniz.";
-
+            "Deneyiminizi bizimle paylaşabilirsiniz.";
 
     }
 
 
-    /*
-    ==========================================
-    4 - 5 YILDIZ
-    LİNKE GİT
-    ==========================================
-    */
+    /* =====================================
+       4 - 5 YILDIZ
+       VERDİĞİN GOOGLE LİNKİNE GİT
+       ===================================== */
 
     else {
 
-
-        /*
-        TEST LİNKİ
-
-        Daha sonra buraya istediğin
-        bağlantıyı yazabilirsin.
-        */
-
-
         window.location.href =
-            "https://www.google.com/search?hl=tr-TR&gl=tr&q=Y%C4%B1ld%C4%B1z+Beyi+Aspava+Kebap,+Ya%C5%9Famkent,+3158.+Cd.+4/A,+06810+Yenimahalle/Ankara&ludocid=3944299170066724487&lsig=AB86z5WiHQQ-P5U0hwGY420h27oo#lrd=0x14d33ec9aa27dff3:0x36bcf73287b1f687,3";
-
+        "https://www.google.com/search?hl=tr-TR&gl=tr&q=Y%C4%B1ld%C4%B1z+Beyi+Aspava+Kebap,+Ya%C5%9Famkent,+3158.+Cd.+4/A,+06810+Yenimahalle/Ankara&ludocid=3944299170066724487&lsig=AB86z5WiHQQ-P5U0hwGY420h27oo#lrd=0x14d33ec9aa27dff3:0x36bcf73287b1f687,3";
 
     }
 
 }
 
-
 </script>
 
 
 </body>
-
 </html>
